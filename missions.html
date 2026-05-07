@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>任务目录 — GTA VI 攻略站</title>
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    .filter-bar { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px; }
+    .filter-btn {
+      padding:8px 16px; border-radius:999px; border:1px solid var(--line);
+      background:rgba(255,255,255,.04); color:var(--muted);
+      cursor:pointer; font-size:13px; transition:.15s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background:rgba(124,92,255,.18); border-color:rgba(124,92,255,.4); color:#fff;
+    }
+    .mission-grid { display:grid; gap:14px; }
+    .mission-row {
+      display:grid; grid-template-columns:48px 1fr auto;
+      align-items:center; gap:16px;
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+      border:1px solid var(--line); border-radius:14px;
+      padding:16px 20px; transition:.15s;
+    }
+    .mission-row:hover { border-color:rgba(255,255,255,.14); transform:translateX(3px); }
+    .mission-num {
+      width:40px; height:40px; border-radius:12px;
+      background:linear-gradient(135deg,rgba(124,92,255,.28),rgba(0,212,255,.2));
+      display:grid; place-items:center; font-weight:800; font-size:15px;
+    }
+    .mission-meta { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; align-items:center; }
+    .diff { font-size:12px; font-weight:700; padding:3px 10px; border-radius:999px; }
+    .diff-easy { background:rgba(35,196,131,.14); color:#8ff0c6; border:1px solid rgba(35,196,131,.22); }
+    .diff-mid  { background:rgba(255,176,32,.14);  color:#ffd080; border:1px solid rgba(255,176,32,.22); }
+    .diff-hard { background:rgba(255,80,80,.14);   color:#ff9898; border:1px solid rgba(255,80,80,.22); }
+    .reward { color:var(--success); font-weight:700; font-size:14px; white-space:nowrap; }
+    .chapter-label {
+      font-size:12px; font-weight:700; text-transform:uppercase;
+      letter-spacing:.08em; color:var(--brand-2);
+      margin:22px 0 10px;
+    }
+    #beginner { scroll-margin-top:80px; }
+    .tip-box {
+      background:linear-gradient(135deg,rgba(124,92,255,.12),rgba(0,212,255,.08));
+      border:1px solid rgba(124,92,255,.22); border-radius:var(--radius);
+      padding:22px; margin-bottom:24px;
+    }
+    .tip-box h3 { margin-bottom:12px; }
+    .tip-list { display:grid; gap:8px; }
+    .tip-item { display:flex; gap:10px; font-size:14px; color:var(--muted); }
+    .tip-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <div class="container nav">
+    <a href="index.html" class="logo"><span class="logo-badge">VI</span><span>GTA VI 攻略站</span></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="missions.html" class="active">任务目录</a>
+      <a href="characters.html">角色资料</a>
+      <a href="news.html">资讯列表</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-hero">
+    <div class="container">
+      <span class="eyebrow">📖 主线任务攻略</span>
+      <h1>任务目录</h1>
+      <p class="muted">6 个章节 · 按难度 / 奖励快速筛选</p>
+    </div>
+  </div>
+
+  <section id="beginner">
+    <div class="container">
+      <div class="tip-box">
+        <h3>🎯 新手庭前必看提示</h3>
+        <div class="tip-list">
+          <div class="tip-item"><span class="tip-icon">✅</span><span>开局优先升级<strong>追跑</strong>和<strong>身到①：战斗技巧</strong>，前期大量步行逆袋民手少。</span></div>
+          <div class="tip-item"><span class="tip-icon">✅</span><span>遇到追捧过早弃车跟jump，车车相撞捕激王。</span></div>
+          <div class="tip-item"><span class="tip-icon">✅</span><span>每个章节完成后存档，避免重播长过场景。</span></div>
+          <div class="tip-item"><span class="tip-icon">✅</span><span>双主角切换键在关键时刻灵派上用场：级别高的主角操个难点。</span></div>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterMissions('all',this)">全部</button>
+        <button class="filter-btn" onclick="filterMissions('1',this)">第 1 章</button>
+        <button class="filter-btn" onclick="filterMissions('2',this)">第 2 章</button>
+        <button class="filter-btn" onclick="filterMissions('3',this)">第 3 章</button>
+        <button class="filter-btn" onclick="filterMissions('easy',this)">简单</button>
+        <button class="filter-btn" onclick="filterMissions('mid',this)">中等</button>
+        <button class="filter-btn" onclick="filterMissions('hard',this)">困难</button>
+      </div>
+
+      <div id="mission-list" class="mission-grid"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="logo"><span class="logo-badge">VI</span><span>GTA VI 攻略站</span></div>
+    <nav class="footer-links">
+      <a href="index.html">首页</a>
+      <a href="characters.html">角色资料</a>
+      <a href="news.html">资讯列表</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script>
+const diffMap = { '简单':'easy', '中等':'mid', '困难':'hard' };
+const diffLabel = { '简单':'diff-easy', '中等':'diff-mid', '困难':'diff-hard' };
+
+function renderMissions(list) {
+  const wrap = document.getElementById('mission-list');
+  wrap.innerHTML = '';
+  let lastChapter = null;
+  list.forEach(m => {
+    if (m.chapter !== lastChapter) {
+      wrap.innerHTML += `<div class="chapter-label">第 ${m.chapter} 章</div>`;
+      lastChapter = m.chapter;
+    }
+    wrap.innerHTML += `
+    <div class="mission-row" data-chapter="${m.chapter}" data-diff="${diffMap[m.difficulty]}">
+      <div class="mission-num">${m.id}</div>
+      <div>
+        <strong>${m.title}</strong>
+        <div class="mission-meta">
+          <span class="diff ${diffLabel[m.difficulty]}">${m.difficulty}</span>
+          ${m.tags.map(t=>`<span class="tag" style="padding:3px 8px;font-size:12px">${t}</span>`).join('')}
+          <span class="small">${m.desc}</span>
+        </div>
+      </div>
+      <div class="reward">${m.reward}</div>
+    </div>`;
+  });
+}
+
+function filterMissions(key, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  let list = CMS.missions;
+  if (key === 'easy' || key === 'mid' || key === 'hard') {
+    list = CMS.missions.filter(m => diffMap[m.difficulty] === key);
+  } else if (key !== 'all') {
+    list = CMS.missions.filter(m => String(m.chapter) === key);
+  }
+  renderMissions(list);
+}
+
+renderMissions(CMS.missions);
+</script>
+</body>
+</html>
