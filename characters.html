@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>角色资料 — GTA VI 攻略站</title>
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    .char-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .char-card {
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+      border:1px solid var(--line); border-radius:var(--radius);
+      box-shadow:var(--shadow); overflow:hidden;
+    }
+    .char-banner {
+      height:120px; display:flex; align-items:center; justify-content:center;
+      font-size:56px;
+      background:linear-gradient(135deg,rgba(124,92,255,.22),rgba(0,212,255,.15));
+    }
+    .char-body { padding:24px; }
+    .char-role { color:var(--brand-2); font-size:13px; font-weight:700; margin-bottom:6px; }
+    .tag-list { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+    .stat-list { display:grid; gap:10px; margin-top:18px; }
+    .stat-row { display:flex; flex-direction:column; gap:4px; }
+    .stat-label { display:flex; justify-content:space-between; font-size:13px; color:var(--muted); }
+    .stat-bar { height:6px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; }
+    .stat-fill { height:100%; border-radius:999px; background:linear-gradient(90deg,var(--brand),var(--brand-2)); transition:width .6s ease; }
+    .relation-box {
+      background:linear-gradient(135deg,rgba(124,92,255,.1),rgba(0,212,255,.07));
+      border:1px solid rgba(124,92,255,.2); border-radius:14px;
+      padding:20px; margin-top:28px;
+    }
+    @media(max-width:700px){ .char-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <div class="container nav">
+    <a href="index.html" class="logo"><span class="logo-badge">VI</span><span>GTA VI 攻略站</span></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="missions.html">任务目录</a>
+      <a href="characters.html" class="active">角色资料</a>
+      <a href="news.html">资讯列表</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-hero">
+    <div class="container">
+      <span class="eyebrow">👥 角色资料</span>
+      <h1>双主角与关系图谱</h1>
+      <p class="muted">GTA VI 首次引入女性可操控主角，两个角色共同推进剑情展开</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div id="char-grid" class="char-grid"></div>
+
+      <div class="relation-box">
+        <h3>🧩 角色关系图谱</h3>
+        <p class="muted" style="font-size:14px">两人在 Vice City 展开合作，共同面对多方势力的夹击。双主角切换決策会影响部分剧情走向。</p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:20px;padding:24px 0;font-size:14px">
+          <div style="text-align:center">
+            <div style="font-size:40px;margin-bottom:8px">🧍</div>
+            <strong>Jason</strong><br/><span class="small">Leonida 出身</span>
+          </div>
+          <div style="font-size:28px;color:var(--brand-2)">&#8596;</div>
+          <div style="text-align:center">
+            <div style="font-size:40px;margin-bottom:8px">🧍‍♀️</div>
+            <strong>Lucia</strong><br/><span class="small">Vice City 核心</span>
+          </div>
+        </div>
+        <p class="small" style="text-align:center">— 更多配角与阵营资料将在游戏发售后持续泺充 —</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="logo"><span class="logo-badge">VI</span><span>GTA VI 攻略站</span></div>
+    <nav class="footer-links">
+      <a href="index.html">首页</a>
+      <a href="missions.html">任务目录</a>
+      <a href="news.html">资讯列表</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script>
+const grid = document.getElementById('char-grid');
+CMS.characters.forEach(c => {
+  const stats = Object.entries(c.stats).map(([k,v]) => `
+    <div class="stat-row">
+      <div class="stat-label"><span>${k}</span><span>${v}</span></div>
+      <div class="stat-bar"><div class="stat-fill" style="width:${v}%"></div></div>
+    </div>`).join('');
+  grid.innerHTML += `
+  <div class="char-card">
+    <div class="char-banner">${c.icon}</div>
+    <div class="char-body">
+      <div class="char-role">${c.role}</div>
+      <h2>${c.name}</h2>
+      <div class="tag-list">${c.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <p class="muted" style="font-size:14px">${c.desc}</p>
+      <div class="stat-list">${stats}</div>
+    </div>
+  </div>`;
+});
+</script>
+</body>
+</html>
