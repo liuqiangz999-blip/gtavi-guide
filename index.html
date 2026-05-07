@@ -3,530 +3,161 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GTA VI 攻略站 - MVP</title>
-  <meta name="description" content="GTA VI 攻略站原型：主线任务、角色资料、地图探索、新手指南一站式入口。" />
+  <title>GTA VI 攻略站</title>
+  <link rel="stylesheet" href="assets/style.css" />
   <style>
-    :root {
-      --bg: #0b1020;
-      --panel: #121933;
-      --panel-2: #1a2347;
-      --text: #eef2ff;
-      --muted: #a8b0d3;
-      --line: rgba(255,255,255,.08);
-      --brand: #7c5cff;
-      --brand-2: #00d4ff;
-      --success: #23c483;
-      --warning: #ffb020;
-      --shadow: 0 12px 40px rgba(0,0,0,.25);
-      --radius: 18px;
-      --max: 1160px;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(124,92,255,.18), transparent 30%),
-        radial-gradient(circle at left center, rgba(0,212,255,.10), transparent 30%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-    a { color: inherit; text-decoration: none; }
-    .container {
-      width: min(var(--max), calc(100% - 32px));
-      margin: 0 auto;
-    }
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(12px);
-      background: rgba(11,16,32,.75);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      min-height: 72px;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      letter-spacing: .3px;
-    }
-    .logo-badge {
-      width: 40px;
-      height: 40px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--brand), var(--brand-2));
-      box-shadow: var(--shadow);
-      font-weight: 900;
-      color: white;
-    }
-    .nav-links {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    .nav-links a:hover { color: white; }
-    .hero { padding: 72px 0 40px; }
-    .hero-wrap {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 24px;
-      align-items: stretch;
-    }
-    .hero-card,.side-card,.card,.news-item,.faq-item,.footer-card {
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
+    .hero-wrap { display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:start; }
     .hero-card {
-      padding: 36px;
-      min-height: 420px;
-      position: relative;
-      overflow: hidden;
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+      border:1px solid var(--line); border-radius:var(--radius);
+      box-shadow:var(--shadow); padding:36px; position:relative; overflow:hidden;
     }
     .hero-card::after {
-      content: "";
-      position: absolute;
-      right: -80px;
-      top: -40px;
-      width: 260px;
-      height: 260px;
-      background: radial-gradient(circle, rgba(124,92,255,.28), transparent 65%);
-      pointer-events: none;
+      content:""; position:absolute; right:-80px; top:-40px;
+      width:260px; height:260px;
+      background:radial-gradient(circle,rgba(124,92,255,.28),transparent 65%);
+      pointer-events:none;
     }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: #d8ddff;
-      background: rgba(124,92,255,.14);
-      border: 1px solid rgba(124,92,255,.28);
-      padding: 8px 12px;
-      border-radius: 999px;
-    }
-    h1, h2, h3, p { margin-top: 0; }
-    h1 {
-      font-size: clamp(34px, 5vw, 56px);
-      line-height: 1.05;
-      margin: 18px 0 16px;
-    }
-    .hero-desc {
-      max-width: 760px;
-      color: var(--muted);
-      font-size: 16px;
-    }
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin: 26px 0 24px;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      height: 46px;
-      padding: 0 18px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      font-weight: 700;
-      cursor: pointer;
-      transition: .2s ease;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--brand), #5fd0ff);
-      color: white;
-    }
-    .btn-primary:hover { transform: translateY(-1px); }
-    .btn-secondary {
-      background: rgba(255,255,255,.04);
-      border-color: var(--line);
-      color: white;
-    }
-    .hero-meta {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 14px;
-    }
+    .hero-meta { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:18px; }
     .meta-box {
-      background: rgba(255,255,255,.03);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px;
+      background:rgba(255,255,255,.03); border:1px solid var(--line);
+      border-radius:14px; padding:14px;
     }
-    .meta-label { color: var(--muted); font-size: 12px; margin-bottom: 4px; }
-    .meta-value { font-size: 15px; font-weight: 700; }
-    .side-stack { display: grid; gap: 18px; }
-    .side-card { padding: 22px; }
-    .search-box { display: flex; gap: 10px; margin-top: 14px; }
+    .meta-label { color:var(--muted); font-size:12px; margin-bottom:4px; }
+    .meta-value { font-size:15px; font-weight:700; }
+    .side-stack { display:grid; gap:18px; }
+    .side-card {
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+      border:1px solid var(--line); border-radius:var(--radius);
+      box-shadow:var(--shadow); padding:22px;
+    }
+    .tag-list { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+    .search-box { display:flex; gap:10px; margin-top:12px; }
     .search-box input {
-      flex: 1;
-      height: 44px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      color: white;
-      padding: 0 14px;
-      outline: none;
+      flex:1; height:42px; border-radius:12px;
+      border:1px solid var(--line); background:rgba(255,255,255,.03);
+      color:#fff; padding:0 14px; outline:none;
     }
     .search-box button {
-      width: 110px;
-      border: none;
-      border-radius: 12px;
-      background: var(--success);
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
+      width:90px; border:none; border-radius:12px;
+      background:var(--success); color:#fff; font-weight:700; cursor:pointer;
     }
-    .tag-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-    .tag {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid var(--line);
-      color: #dce3ff;
-      font-size: 13px;
-    }
-    section { padding: 18px 0 10px; }
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-    .section-head p { color: var(--muted); margin: 0; }
-    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .card { padding: 22px; transition: .2s ease; }
-    .card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.14); }
-    .icon {
-      width: 48px;
-      height: 48px;
-      display: grid;
-      place-items: center;
-      border-radius: 14px;
-      margin-bottom: 14px;
-      background: linear-gradient(135deg, rgba(124,92,255,.24), rgba(0,212,255,.20));
-      font-size: 22px;
-    }
-    .card p { color: var(--muted); font-size: 14px; min-height: 66px; }
-    .card-link { color: #b8c6ff; font-weight: 700; font-size: 14px; }
-    .two-col { display: grid; grid-template-columns: 1.15fr .85fr; gap: 18px; }
-    .news-list, .faq-list { display: grid; gap: 14px; }
-    .news-item, .faq-item { padding: 18px; }
-    .news-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 8px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      height: 28px;
-      padding: 0 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      background: rgba(35,196,131,.14);
-      color: #8ff0c6;
-      border: 1px solid rgba(35,196,131,.22);
-    }
-    .faq-q {
-      width: 100%;
-      background: none;
-      border: 0;
-      color: white;
-      text-align: left;
-      padding: 0;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .faq-a { color: var(--muted); margin-top: 10px; display: none; font-size: 14px; }
-    .faq-item.active .faq-a { display: block; }
-    .footer { padding: 28px 0 60px; }
-    .footer-card {
-      padding: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .footer-card p { color: var(--muted); margin: 6px 0 0; }
-    .small { font-size: 13px; color: var(--muted); }
-    @media (max-width: 980px) {
-      .hero-wrap,.two-col,.grid-4,.grid-3 { grid-template-columns: 1fr 1fr; }
-      .hero-meta { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 680px) {
-      .nav { align-items: flex-start; padding: 14px 0; }
-      .nav,.hero-wrap,.two-col,.grid-4,.grid-3 { grid-template-columns: 1fr; display: grid; }
-      .nav-links { gap: 12px; }
-      .hero-card,.side-card,.card { padding: 18px; }
-      h1 { font-size: 32px; }
-    }
+    .hero-actions { display:flex; gap:12px; flex-wrap:wrap; margin:22px 0 18px; }
+    @media(max-width:900px){ .hero-wrap{grid-template-columns:1fr;} .hero-meta{grid-template-columns:1fr 1fr;} }
+    @media(max-width:560px){ .hero-meta{grid-template-columns:1fr;} }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container nav">
-      <a href="#" class="logo">
-        <span class="logo-badge">VI</span>
-        <span>GTA VI 攻略站</span>
-      </a>
-      <nav class="nav-links">
-        <a href="#guides">攻略入口</a>
-        <a href="#roles">角色资料</a>
-        <a href="#news">最新情报</a>
-        <a href="#faq">常见问题</a>
-      </nav>
+<header class="topbar">
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <span class="logo-badge">VI</span><span>GTA VI 攻略站</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html" class="active">首页</a>
+      <a href="missions.html">任务目录</a>
+      <a href="characters.html">角色资料</a>
+      <a href="news.html">资讯列表</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-hero">
+    <div class="container hero-wrap">
+      <div class="hero-card">
+        <span class="eyebrow">⚡ 2026 年 11 月 19 日 · PS5 / Xbox Series X|S</span>
+        <h1>GTA VI<br />中文攻略站</h1>
+        <p class="muted" style="font-size:16px">覆盖主线任务、角色资料、地图探索、新手指南四大核心模块。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="missions.html">📖 任务目录</a>
+          <a class="btn btn-ghost" href="characters.html">👥 角色资料</a>
+          <a class="btn btn-ghost" href="news.html">📰 最新资讯</a>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-box"><div class="meta-label">发售时间</div><div class="meta-value">2026-11-19</div></div>
+          <div class="meta-box"><div class="meta-label">故事舞台</div><div class="meta-value">Vice City / Leonida</div></div>
+          <div class="meta-box"><div class="meta-label">双主角</div><div class="meta-value">Jason &amp; Lucia</div></div>
+        </div>
+      </div>
+
+      <div class="side-stack">
+        <div class="side-card">
+          <h3>站内搜索</h3>
+          <div class="search-box">
+            <input id="q" type="text" placeholder="任务、角色、地图..." />
+            <button onclick="doSearch()">搜索</button>
+          </div>
+        </div>
+        <div class="side-card">
+          <h3>热门标签</h3>
+          <div class="tag-list">
+            <a class="tag" href="missions.html">主线任务</a>
+            <a class="tag" href="missions.html">100%完成度</a>
+            <a class="tag" href="characters.html">角色关系</a>
+            <a class="tag" href="missions.html">地图探索</a>
+            <a class="tag" href="missions.html">新手入门</a>
+            <a class="tag" href="missions.html">赚钱技巧</a>
+            <a class="tag" href="missions.html">武器载具</a>
+            <a class="tag" href="missions.html">隐藏彩蛋</a>
+          </div>
+        </div>
+      </div>
     </div>
-  </header>
+  </div>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-wrap">
-        <div class="hero-card">
-          <span class="eyebrow">⚡ 首页 MVP / 可直接演示</span>
-          <h1>GTA VI 中文攻略站<br />先做最有流量的入口</h1>
-          <p class="hero-desc">
-            覆盖主线任务、角色资料、地图探索、新手指南四大核心模块。
-            这一版的目标不是做全，而是让用户一进站就知道去哪找攻略。
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#guides">进入攻略入口</a>
-            <a class="btn btn-secondary" href="#news">查看最新情报</a>
-          </div>
-          <div class="hero-meta">
-            <div class="meta-box">
-              <div class="meta-label">发售时间</div>
-              <div class="meta-value">2026-11-19</div>
-            </div>
-            <div class="meta-box">
-              <div class="meta-label">故事舞台</div>
-              <div class="meta-value">Vice City / Leonida</div>
-            </div>
-            <div class="meta-box">
-              <div class="meta-label">双主角</div>
-              <div class="meta-value">Jason &amp; Lucia</div>
-            </div>
-          </div>
-        </div>
-        <div class="side-stack">
-          <div class="side-card">
-            <h3>站内搜索</h3>
-            <p class="small">先模拟攻略搜索，后面可以接 Algolia、Meilisearch 或数据库全文检索。</p>
-            <div class="search-box">
-              <input id="searchInput" type="text" placeholder="搜索：任务、角色、地图、赚钱..." />
-              <button onclick="mockSearch()">搜索</button>
-            </div>
-          </div>
-          <div class="side-card">
-            <h3>热门标签</h3>
-            <div class="tag-list">
-              <span class="tag">主线任务</span>
-              <span class="tag">100%完成度</span>
-              <span class="tag">角色关系</span>
-              <span class="tag">地图探索</span>
-              <span class="tag">新手入门</span>
-              <span class="tag">赚钱技巧</span>
-              <span class="tag">武器载具</span>
-              <span class="tag">隐藏彩蛋</span>
-            </div>
-          </div>
-          <div class="side-card">
-            <h3>本页 MVP 目标</h3>
-            <div class="tag-list">
-              <span class="tag">验证导航结构</span>
-              <span class="tag">承接搜索流量</span>
-              <span class="tag">收集点击数据</span>
-              <span class="tag">后续扩展内容库</span>
-            </div>
-          </div>
-        </div>
+  <section>
+    <div class="container">
+      <div class="section-head"><h2>攻略入口</h2><p>四大核心模块，直接跳转</p></div>
+      <div class="grid-4">
+        <a class="card" href="missions.html"><div class="icon">📖</div><h3>主线任务攻略</h3><p class="muted" style="font-size:14px">按章节整理剧情流程、关键目标、奖励与失败条件。</p><span style="color:#b8c6ff;font-weight:700;font-size:14px">查看目录 →</span></a>
+        <a class="card" href="#"><div class="icon">🗺️</div><h3>地图探索</h3><p class="muted" style="font-size:14px">地标、收藏品、隱藏地点与互动地图（即将上线）。</p><span style="color:#b8c6ff;font-weight:700;font-size:14px">即将上线 →</span></a>
+        <a class="card" href="characters.html"><div class="icon">👥</div><h3>角色资料</h3><p class="muted" style="font-size:14px">主角、配角、帮派与关系线整合。</p><span style="color:#b8c6ff;font-weight:700;font-size:14px">查看角色 →</span></a>
+        <a class="card" href="missions.html#beginner"><div class="icon">🎯</div><h3>新手指南</h3><p class="muted" style="font-size:14px">开局建议、战斗技巧、赚钱路线。</p><span style="color:#b8c6ff;font-weight:700;font-size:14px">查看指南 →</span></a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="guides">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>攻略入口</h2>
-            <p>先把用户最高频访问的内容放到首页第一屏以下。</p>
-          </div>
-        </div>
-        <div class="grid-4">
-          <a class="card" href="#">
-            <div class="icon">📖</div>
-            <h3>主线任务攻略</h3>
-            <p>按章节整理剧情流程、关键目标、失败条件和奖励，适合首发阶段最快起量。</p>
-            <span class="card-link">查看任务目录 →</span>
-          </a>
-          <a class="card" href="#">
-            <div class="icon">🗺️</div>
-            <h3>地图探索</h3>
-            <p>收录区域地图、地标、可探索地点和后续可接互动地图的数据入口。</p>
-            <span class="card-link">查看地图分区 →</span>
-          </a>
-          <a class="card" href="#roles">
-            <div class="icon">👥</div>
-            <h3>角色资料</h3>
-            <p>整理主角、配角、帮派与关系线，帮助用户快速理解剧情人物。</p>
-            <span class="card-link">查看角色介绍 →</span>
-          </a>
-          <a class="card" href="#">
-            <div class="icon">🎯</div>
-            <h3>新手指南</h3>
-            <p>面向首次入坑用户，提供开局建议、战斗技巧、赚钱路线和常见问题。</p>
-            <span class="card-link">查看入门内容 →</span>
-          </a>
-        </div>
-      </div>
-    </section>
+  <section>
+    <div class="container">
+      <div class="section-head"><h2>最新资讯</h2><p>持续跟进官方动态</p></div>
+      <div id="news-preview" class="grid-2"></div>
+      <div style="margin-top:18px"><a class="btn btn-ghost" href="news.html">查看全部资讯 →</a></div>
+    </div>
+  </section>
+</main>
 
-    <section id="roles">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <h2>角色资料</h2>
-            <p>首页先展示最核心的双主角，后续再扩展配角和阵营页。</p>
-          </div>
-        </div>
-        <div class="grid-3">
-          <div class="card">
-            <div class="icon">🧍</div>
-            <h3>Jason</h3>
-            <p>作为双主角之一，适合做成独立角色详情页，延展剧情关系、任务参与和人物成长线。</p>
-            <span class="card-link">角色页占位 →</span>
-          </div>
-          <div class="card">
-            <div class="icon">🧍‍♀️</div>
-            <h3>Lucia</h3>
-            <p>另一位主角，首页应重点突出，方便承接搜索"Lucia是谁""女主资料"等关键词流量。</p>
-            <span class="card-link">角色页占位 →</span>
-          </div>
-          <div class="card">
-            <div class="icon">🧩</div>
-            <h3>关系图谱</h3>
-            <p>后续可扩展为角色关系网、组织阵营和任务关联，提升站内停留时间。</p>
-            <span class="card-link">专题页占位 →</span>
-          </div>
-        </div>
-      </div>
-    </section>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="logo"><span class="logo-badge">VI</span><span>GTA VI 攻略站</span></div>
+    <nav class="footer-links">
+      <a href="missions.html">任务目录</a>
+      <a href="characters.html">角色资料</a>
+      <a href="news.html">资讯列表</a>
+    </nav>
+  </div>
+</footer>
 
-    <section id="news">
-      <div class="container two-col">
-        <div>
-          <div class="section-head">
-            <div>
-              <h2>最新情报</h2>
-              <p>攻略站首页需要有"持续更新"的感觉，哪怕前期内容不多。</p>
-            </div>
-          </div>
-          <div class="news-list">
-            <article class="news-item">
-              <div class="news-top">
-                <span>官方信息</span>
-                <span class="pill">已确认</span>
-              </div>
-              <h3>GTA VI 预计于 2026 年 11 月 19 日发售</h3>
-              <p class="small">首页用作信任锚点，告诉用户这不是同人整理页，而是跟进官方信息的攻略站。</p>
-            </article>
-            <article class="news-item">
-              <div class="news-top">
-                <span>世界观</span>
-                <span class="pill">重点</span>
-              </div>
-              <h3>故事舞台回到 Vice City，并扩展到 Leonida</h3>
-              <p class="small">这决定了你后面地图页、地区页、探索页的栏目结构。</p>
-            </article>
-            <article class="news-item">
-              <div class="news-top">
-                <span>角色</span>
-                <span class="pill">高热度</span>
-              </div>
-              <h3>Jason 与 Lucia 是首页最应该优先做的角色内容</h3>
-              <p class="small">用户对角色介绍、关系、剧情定位的搜索需求会很高。</p>
-            </article>
-          </div>
-        </div>
-        <div id="faq">
-          <div class="section-head">
-            <div>
-              <h2>常见问题</h2>
-              <p>FAQ 既能提升 SEO，也能快速回应首批用户疑问。</p>
-            </div>
-          </div>
-          <div class="faq-list">
-            <div class="faq-item active">
-              <button class="faq-q">GTA VI 攻略站现在最该先做什么？</button>
-              <div class="faq-a">先做首页、任务目录页、角色页、基础资讯页。不要一开始就做太深的全量数据库。</div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-q">首发前没有实机内容，站点还能做吗？</button>
-              <div class="faq-a">可以，先做官方已确认信息整理、角色页、世界观页、发售情报页和预约流量入口。</div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-q">MVP 上线后看什么数据？</button>
-              <div class="faq-a">重点看首页点击率、搜索词、热门入口、停留时长，以及哪个栏目最吸引用户进入下一页。</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="footer">
-      <div class="container">
-        <div class="footer-card">
-          <div>
-            <h3>下一步建议</h3>
-            <p>把这个单页拆成 4 个真实页面：首页、任务目录、角色详情、资讯列表，然后再接内容管理。</p>
-          </div>
-          <a class="btn btn-primary" href="#">继续扩展站点</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    function mockSearch() {
-      const keyword = document.getElementById('searchInput').value.trim();
-      if (!keyword) {
-        alert('请输入关键词，例如：主线任务 / Lucia / 地图 / 赚钱');
-        return;
-      }
-      alert('MVP 演示：你搜索了「' + keyword + '」。下一步可以把它接到真实搜索页。');
-    }
-    document.querySelectorAll('.faq-q').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.parentElement;
-        item.classList.toggle('active');
-      });
-    });
-  </script>
+<script src="assets/data.js"></script>
+<script>
+function doSearch(){
+  const k=document.getElementById('q').value.trim();
+  if(!k){alert('请输入关键词');return;}
+  alert('MVP 演示：搜索「'+k+'」——后续接真实搜索引擎');
+}
+// 首页展示最新 2 条资讯
+const wrap=document.getElementById('news-preview');
+CMS.news.slice(0,2).forEach(n=>{
+  wrap.innerHTML+=`
+  <a class="card" href="news.html">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <span class="small">${n.date} &nbsp;${n.category}</span>
+      <span class="pill">${n.tag}</span>
+    </div>
+    <h3 style="margin-bottom:8px">${n.title}</h3>
+    <p class="small">${n.summary}</p>
+  </a>`;
+});
+</script>
 </body>
 </html>
